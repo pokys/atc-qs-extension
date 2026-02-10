@@ -6,6 +6,10 @@ const defaults = {
     context: { enabled: true, shop: "tsbohemia" },
     alt_click: { enabled: true, shop: "edshop" },
     alt_context: { enabled: true, shop: "heureka" }
+  },
+  sites: {
+    comfor: false,
+    edshop: false
   }
 };
 
@@ -44,6 +48,7 @@ function showStatus(text) {
 async function load() {
   const stored = await ext.storage.local.get(defaults);
   const actions = stored.actions ?? defaults.actions;
+  const sites = stored.sites ?? defaults.sites;
 
   document.querySelectorAll("select[data-action]").forEach(selectEl => {
     populateSelect(selectEl);
@@ -55,10 +60,20 @@ async function load() {
     const key = checkbox.dataset.action;
     checkbox.checked = actions[key]?.enabled ?? true;
   });
+
+  const comforToggle = document.querySelector("input[data-site=\"comfor\"]");
+  if (comforToggle) {
+    comforToggle.checked = sites.comfor ?? false;
+  }
+  const edshopToggle = document.querySelector("input[data-site=\"edshop\"]");
+  if (edshopToggle) {
+    edshopToggle.checked = sites.edshop ?? false;
+  }
 }
 
 async function save() {
   const actions = {};
+  const sites = {};
   for (const key of Object.keys(defaults.actions)) {
     const checkbox = document.querySelector(`input[data-action="${key}"]`);
     const selectEl = document.querySelector(`select[data-action="${key}"]`);
@@ -67,7 +82,11 @@ async function save() {
       shop: selectEl?.value ?? defaults.actions[key].shop
     };
   }
-  await ext.storage.local.set({ actions });
+  const comforToggle = document.querySelector("input[data-site=\"comfor\"]");
+  sites.comfor = comforToggle?.checked ?? false;
+  const edshopToggle = document.querySelector("input[data-site=\"edshop\"]");
+  sites.edshop = edshopToggle?.checked ?? false;
+  await ext.storage.local.set({ actions, sites });
   showStatus("Ulozeno");
 }
 

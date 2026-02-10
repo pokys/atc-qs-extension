@@ -7,12 +7,17 @@
       context: { enabled: true, shop: "tsbohemia" },
       alt_click: { enabled: true, shop: "edshop" },
       alt_context: { enabled: true, shop: "heureka" }
+    },
+    sites: {
+      comfor: false,
+      edshop: false
     }
   };
   const stored = await ext.storage.local.get(defaults);
   const enabled = stored.enabled ?? true;
   if (!enabled) return;
   const actions = stored.actions ?? defaults.actions;
+  const sites = stored.sites ?? defaults.sites;
 
   const shops = {
     alza: {
@@ -99,44 +104,69 @@
     return icon;
   }
 
-  // DETAIL PRODUKTU
-  const detailCells = [...document.querySelectorAll("div.col-xs-6")];
-  for (let i = 0; i < detailCells.length; i++) {
-    if (detailCells[i].textContent.toLowerCase().includes("part")) {
-      const valueCell = detailCells[i + 1];
-      if (valueCell && !valueCell.querySelector(".atc-alien")) {
-        const part = valueCell.textContent.trim();
-        if (part) valueCell.appendChild(createIcon(part));
+  const host = window.location.hostname;
+
+  if (host.endsWith("atcomp.cz")) {
+    // DETAIL PRODUKTU
+    const detailCells = [...document.querySelectorAll("div.col-xs-6")];
+    for (let i = 0; i < detailCells.length; i++) {
+      if (detailCells[i].textContent.toLowerCase().includes("part")) {
+        const valueCell = detailCells[i + 1];
+        if (valueCell && !valueCell.querySelector(".atc-alien")) {
+          const part = valueCell.textContent.trim();
+          if (part) valueCell.appendChild(createIcon(part));
+        }
+        break;
       }
-      break;
+    }
+
+    // SEZNAM PRODUKTŮ – FIX PRO DYNAMICKÉ NAČÍTÁNÍ
+    function injectIconsIntoList() {
+      document.querySelectorAll("table.vypis td.col-13").forEach(cell => {
+        if (cell.querySelector(".atc-alien")) return;
+
+        const part = cell.textContent.trim();
+        if (!part) return;
+
+        cell.appendChild(createIcon(part));
+      });
+    }
+
+    // první pokus
+    injectIconsIntoList();
+
+    // observer pro vyhledávání / filtrování / stránkování
+    const tableContainer = document.querySelector(".table-container");
+    if (tableContainer) {
+      const observer = new MutationObserver(() => {
+        injectIconsIntoList();
+      });
+
+      observer.observe(tableContainer, {
+        childList: true,
+        subtree: true
+      });
     }
   }
 
-  // SEZNAM PRODUKTŮ – FIX PRO DYNAMICKÉ NAČÍTÁNÍ
-  function injectIconsIntoList() {
-    document.querySelectorAll("table.vypis td.col-13").forEach(cell => {
-      if (cell.querySelector(".atc-alien")) return;
-
-      const part = cell.textContent.trim();
-      if (!part) return;
-
-      cell.appendChild(createIcon(part));
-    });
+  if (host.endsWith("comfor.cz") && sites.comfor) {
+    const skuValue = document.querySelector(".product-detail-sku-value");
+    if (skuValue && !skuValue.querySelector(".atc-alien")) {
+      const part = skuValue.textContent.trim();
+      if (part) skuValue.appendChild(createIcon(part));
+    }
   }
 
-  // první pokus
-  injectIconsIntoList();
-
-  // observer pro vyhledávání / filtrování / stránkování
-  const tableContainer = document.querySelector(".table-container");
-  if (tableContainer) {
-    const observer = new MutationObserver(() => {
-      injectIconsIntoList();
+  if (host.endsWith("edshop.edsystem.cz") && sites.edshop) {
+    const labels = [...document.querySelectorAll(".list-items_item_label")];
+    const label = labels.find(el => {
+      const text = el.textContent.trim().toLowerCase();
+      return text === "p/n:" || text === "pn:" || text === "p/n";
     });
-
-    observer.observe(tableContainer, {
-      childList: true,
-      subtree: true
-    });
+    const valueEl = label?.parentElement?.querySelector(".list-items_item_value");
+    if (valueEl && !valueEl.querySelector(".atc-alien")) {
+      const part = valueEl.textContent.trim();
+      if (part) valueEl.appendChild(createIcon(part));
+    }
   }
 })();
