@@ -1,0 +1,33 @@
+name: Build Release Packages
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build packages
+        run: |
+          set -euo pipefail
+          mkdir -p dist/firefox dist/chrome
+          cp shared/* dist/firefox/
+          cp firefox/manifest.json dist/firefox/manifest.json
+          cp shared/* dist/chrome/
+          cp chrome/manifest.json dist/chrome/manifest.json
+          (cd dist/firefox && zip -r ../atc-qs-extension-firefox.zip .)
+          (cd dist/chrome && zip -r ../atc-qs-extension-chrome.zip .)
+
+      - name: Upload release assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/atc-qs-extension-firefox.zip
+            dist/atc-qs-extension-chrome.zip
