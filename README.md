@@ -1,5 +1,8 @@
 # ATC -> Alza
 
+[![Firefox Add-on](https://img.shields.io/badge/Firefox-Add--on-FF7139?style=for-the-badge&logo=firefoxbrowser&logoColor=white)](https://addons.mozilla.org/cs/firefox/addon/atc-qs/)
+[![Chrome Web Store](https://img.shields.io/badge/Chrome-Web%20Store-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/atc-%E2%86%92-alza-%F0%9F%91%BD/fmcnoalaommmddcgoafidohcnbcobbaf)
+
 Rozsireni pro rychle vyhledani product/part kodu na vybranych ceskych e-shopech.
 
 Store listing texty jsou v:
