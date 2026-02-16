@@ -13,6 +13,10 @@ Workflow vytvoří:
 - `atc-qs-extension-firefox.zip`
 - `atc-qs-extension-chrome.zip`
 
+## Obchody s doplnky
+https://addons.mozilla.org/cs/firefox/addon/atc-qs/
+
+
 ## Poznámka k testování
 Repo je nastavené pro automatické balení na GitHubu. Pro lokální testování bez workflow je potřeba zkopírovat obsah `shared/` do dočasné složky spolu s odpovídajícím manifestem.
 
