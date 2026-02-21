@@ -1,6 +1,7 @@
 const ext = globalThis.browser ?? globalThis.chrome;
 
 const defaults = {
+  openInBackground: false,
   actions: {
     click: { enabled: true, shop: "alza" },
     context: { enabled: true, shop: "tsbohemia" },
@@ -47,6 +48,7 @@ function showStatus(text) {
 
 async function load() {
   const stored = await ext.storage.local.get(defaults);
+  const openInBackground = stored.openInBackground ?? defaults.openInBackground;
   const actions = stored.actions ?? defaults.actions;
   const sites = stored.sites ?? defaults.sites;
 
@@ -69,6 +71,10 @@ async function load() {
   if (edshopToggle) {
     edshopToggle.checked = sites.edshop ?? false;
   }
+  const openInBackgroundToggle = document.querySelector("input[data-setting=\"open_in_background\"]");
+  if (openInBackgroundToggle) {
+    openInBackgroundToggle.checked = openInBackground;
+  }
 }
 
 async function save() {
@@ -86,7 +92,9 @@ async function save() {
   sites.comfor = comforToggle?.checked ?? false;
   const edshopToggle = document.querySelector("input[data-site=\"edshop\"]");
   sites.edshop = edshopToggle?.checked ?? false;
-  await ext.storage.local.set({ actions, sites });
+  const openInBackgroundToggle = document.querySelector("input[data-setting=\"open_in_background\"]");
+  const openInBackground = openInBackgroundToggle?.checked ?? false;
+  await ext.storage.local.set({ actions, sites, openInBackground });
   showStatus("Ulozeno");
 }
 

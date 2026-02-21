@@ -88,7 +88,17 @@
       if (!action || !action.enabled) return;
       const shop = shops[action.shop];
       if (!shop) return;
-      window.open(shop.url(part), "_blank", "noopener");
+      const url = shop.url(part);
+      try {
+        const messageResult = ext.runtime.sendMessage({ type: "open-url", url });
+        if (messageResult && typeof messageResult.then === "function") {
+          messageResult.catch(() => {
+            window.open(url, "_blank", "noopener");
+          });
+        }
+      } catch (_error) {
+        window.open(url, "_blank", "noopener");
+      }
     }
 
     icon.addEventListener("click", e => {
