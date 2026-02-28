@@ -148,9 +148,12 @@
       openForAction(e.altKey ? "alt_context" : "context", partNumber);
     });
 
-    icon.addEventListener("auxclick", e => {
+    // Firefox can start autoscroll on middle-click before auxclick fires.
+    // Handle middle button on mousedown to block autoscroll reliably.
+    icon.addEventListener("mousedown", e => {
       if (e.button !== 1 || !middleClickMultiOpen) return;
       e.preventDefault();
+      e.stopPropagation();
       openMultiple(partNumber);
     });
 
