@@ -1,28 +1,38 @@
 # ATC -> Alza
 
-Doplnek pridava malou ikonu k product/part kodu a umoznuje rychle vyhledani stejneho produktu na vybranych ceskych e-shopech.
+Doplněk přidává malou ikonu k product/part kódu a umožňuje okamžité vyhledání stejného produktu na vybraných českých e-shopech.
 
-Na `atcomp.cz` funguje na detailu produktu i v seznamu produktu.
-Volitelne lze v nastaveni zapnout i zobrazeni ikony na detailu produktu na `comfor.cz` a `edshop.edsystem.cz`.
+Primárně funguje na `atcomp.cz`:
+- detail produktu
+- seznam produktů
 
-## Vychozi mapovani akci
+Volitelně lze v nastavení zapnout i zobrazení ikony na detailu produktu na:
+- `comfor.cz`
+- `edshop.edsystem.cz`
+
+## Výchozí mapování akcí
 - Klik: `alza.cz`
-- Pravy klik: `tsbohemia.cz`
+- Pravý klik: `tsbohemia.cz`
 - Alt + klik: `edshop.edsystem.cz`
-- Alt + pravy klik: `heureka.cz`
+- Alt + pravý klik: `heureka.cz`
 
-## Nastaveni
-- Kazdou akci lze samostatne zapnout/vypnout.
-- Pro kazdou akci lze vybrat cilovy e-shop.
+## Nové chování
+- Prostřední klik: otevřít všechny aktivní e-shopy (výchozí stav: zapnuto)
+- Otevírat odkazy na pozadí: volitelná funkce v nastavení
 
-## Podporovane cilove e-shopy
+## Nastavení
+- Každou akci lze samostatně zapnout/vypnout.
+- Pro každou akci lze vybrat cílový e-shop.
+- Lze zapnout/vypnout rozšířenou podporu pro Comfor a EDshop detail.
+
+## Podporované cílové e-shopy
 `alza.cz`, `tsbohemia.cz`, `edshop.edsystem.cz`, `heureka.cz`, `datart.cz`, `iwant.cz`, `smarty.cz`, `allegro.cz (CZC)`, `comfor.cz`, `mironet.cz`.
 
-## Soukromi
-- Doplnek nesbira osobni data.
-- Doplnek neposila telemetrii.
-- Doplnek nepouziva externi API.
-- Uklada pouze lokalni nastaveni uzivatele do uloziste prohlizece (`storage`).
+## Soukromí
+- Doplněk nesbírá osobní data.
+- Doplněk neposílá telemetrii.
+- Doplněk nepoužívá externí API.
+- Ukládá pouze lokální nastavení uživatele do úložiště prohlížeče (`storage`).
 
 ## Dostupnost
 - Firefox (AMO): [https://addons.mozilla.org/cs/firefox/addon/atc-qs/](https://addons.mozilla.org/cs/firefox/addon/atc-qs/)
