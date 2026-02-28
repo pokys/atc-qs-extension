@@ -26,8 +26,11 @@ jobs:
           (cd dist/chrome && zip -r ../atc-qs-extension-chrome.zip .)
 
       - name: Upload release assets
-        uses: softprops/action-gh-release@v2
-        with:
-          files: |
-            dist/atc-qs-extension-firefox.zip
-            dist/atc-qs-extension-chrome.zip
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh release upload "${{ github.event.release.tag_name }}" \
+            dist/atc-qs-extension-firefox.zip \
+            dist/atc-qs-extension-chrome.zip \
+            --clobber
