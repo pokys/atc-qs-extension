@@ -2,6 +2,7 @@
   const ext = globalThis.browser ?? globalThis.chrome;
   const defaults = {
     enabled: true,
+    middleClickMultiOpen: true,
     actions: {
       click: { enabled: true, shop: "alza" },
       context: { enabled: true, shop: "tsbohemia" },
@@ -18,6 +19,7 @@
   if (!enabled) return;
   const actions = stored.actions ?? defaults.actions;
   const sites = stored.sites ?? defaults.sites;
+  const middleClickMultiOpen = stored.middleClickMultiOpen ?? defaults.middleClickMultiOpen;
 
   const shops = {
     alza: {
@@ -79,9 +81,10 @@
 
     icon.title =
       titleFor("click", "Klik") + "\n" +
-      titleFor("context", "Pravy klik") + "\n" +
+      titleFor("context", "Prav\u00fd klik") + "\n" +
       titleFor("alt_click", "Alt + klik") + "\n" +
-      titleFor("alt_context", "Alt + pravy klik");
+      titleFor("alt_context", "Alt + prav\u00fd klik") + "\n" +
+      `Prost\u0159edn\u00ed klik: ${middleClickMultiOpen ? "otev\u0159\u00edt v\u0161echny" : "vypnuto"}`;
 
     function openForAction(actionKey, part) {
       const action = actions[actionKey];
@@ -101,6 +104,40 @@
       }
     }
 
+    function openMultiple(part) {
+      const actionOrder = ["click", "context", "alt_click", "alt_context"];
+      const urls = [];
+      const seen = new Set();
+
+      for (const key of actionOrder) {
+        const action = actions[key];
+        if (!action || !action.enabled) continue;
+        const shop = shops[action.shop];
+        if (!shop) continue;
+        const url = shop.url(part);
+        if (seen.has(url)) continue;
+        seen.add(url);
+        urls.push(url);
+      }
+
+      if (!urls.length) return;
+
+      try {
+        const messageResult = ext.runtime.sendMessage({ type: "open-urls", urls });
+        if (messageResult && typeof messageResult.then === "function") {
+          messageResult.catch(() => {
+            for (const url of urls) {
+              window.open(url, "_blank", "noopener");
+            }
+          });
+        }
+      } catch (_error) {
+        for (const url of urls) {
+          window.open(url, "_blank", "noopener");
+        }
+      }
+    }
+
     icon.addEventListener("click", e => {
       e.preventDefault();
       openForAction(e.altKey ? "alt_click" : "click", partNumber);
@@ -109,6 +146,12 @@
     icon.addEventListener("contextmenu", e => {
       e.preventDefault();
       openForAction(e.altKey ? "alt_context" : "context", partNumber);
+    });
+
+    icon.addEventListener("auxclick", e => {
+      if (e.button !== 1 || !middleClickMultiOpen) return;
+      e.preventDefault();
+      openMultiple(partNumber);
     });
 
     return icon;

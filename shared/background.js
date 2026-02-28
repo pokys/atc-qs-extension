@@ -12,11 +12,12 @@ async function updateIcon() {
 }
 
 ext.runtime.onInstalled.addListener(async () => {
-  const { enabled = true, openInBackground = false } = await ext.storage.local.get({
+  const { enabled = true, openInBackground = false, middleClickMultiOpen = true } = await ext.storage.local.get({
     enabled: true,
-    openInBackground: false
+    openInBackground: false,
+    middleClickMultiOpen: true
   });
-  await ext.storage.local.set({ enabled, openInBackground });
+  await ext.storage.local.set({ enabled, openInBackground, middleClickMultiOpen });
   updateIcon();
 });
 
@@ -29,21 +30,38 @@ actionApi.onClicked.addListener(async () => {
 });
 
 ext.runtime.onMessage.addListener(message => {
-  if (!message || message.type !== "open-url" || !message.url) return;
+  if (!message || !message.type) return;
 
-  const openTab = async () => {
-    const { openInBackground = false } = await ext.storage.local.get("openInBackground");
+  const openTab = async (url, isFirst, openInBackground) => {
     const createResult = ext.tabs.create({
-      url: message.url,
-      active: !openInBackground
+      url,
+      active: openInBackground ? false : isFirst
     });
     if (createResult && typeof createResult.then === "function") {
       await createResult;
     }
   };
 
-  const result = openTab();
-  if (result && typeof result.then === "function") {
-    result.catch(() => {});
+  if (message.type === "open-url" && message.url) {
+    const result = (async () => {
+      const { openInBackground = false } = await ext.storage.local.get("openInBackground");
+      await openTab(message.url, true, openInBackground);
+    })();
+    if (result && typeof result.then === "function") {
+      result.catch(() => {});
+    }
+    return;
+  }
+
+  if (message.type === "open-urls" && Array.isArray(message.urls) && message.urls.length) {
+    const result = (async () => {
+      const { openInBackground = false } = await ext.storage.local.get("openInBackground");
+      for (let i = 0; i < message.urls.length; i++) {
+        await openTab(message.urls[i], i === 0, openInBackground);
+      }
+    })();
+    if (result && typeof result.then === "function") {
+      result.catch(() => {});
+    }
   }
 });

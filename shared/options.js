@@ -2,6 +2,7 @@ const ext = globalThis.browser ?? globalThis.chrome;
 
 const defaults = {
   openInBackground: false,
+  middleClickMultiOpen: true,
   actions: {
     click: { enabled: true, shop: "alza" },
     context: { enabled: true, shop: "tsbohemia" },
@@ -49,6 +50,7 @@ function showStatus(text) {
 async function load() {
   const stored = await ext.storage.local.get(defaults);
   const openInBackground = stored.openInBackground ?? defaults.openInBackground;
+  const middleClickMultiOpen = stored.middleClickMultiOpen ?? defaults.middleClickMultiOpen;
   const actions = stored.actions ?? defaults.actions;
   const sites = stored.sites ?? defaults.sites;
 
@@ -75,6 +77,10 @@ async function load() {
   if (openInBackgroundToggle) {
     openInBackgroundToggle.checked = openInBackground;
   }
+  const middleClickMultiOpenToggle = document.querySelector("input[data-setting=\"middle_click_multi_open\"]");
+  if (middleClickMultiOpenToggle) {
+    middleClickMultiOpenToggle.checked = middleClickMultiOpen;
+  }
 }
 
 async function save() {
@@ -94,8 +100,10 @@ async function save() {
   sites.edshop = edshopToggle?.checked ?? false;
   const openInBackgroundToggle = document.querySelector("input[data-setting=\"open_in_background\"]");
   const openInBackground = openInBackgroundToggle?.checked ?? false;
-  await ext.storage.local.set({ actions, sites, openInBackground });
-  showStatus("Ulozeno");
+  const middleClickMultiOpenToggle = document.querySelector("input[data-setting=\"middle_click_multi_open\"]");
+  const middleClickMultiOpen = middleClickMultiOpenToggle?.checked ?? false;
+  await ext.storage.local.set({ actions, sites, openInBackground, middleClickMultiOpen });
+  showStatus("Ulo\u017eeno");
 }
 
 function wire() {
