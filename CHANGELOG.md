@@ -1,12 +1,12 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+Vsechny dulezite zmeny v tomto projektu jsou zaznamenane v tomto souboru.
 
 ## [1.0.7] - 2026-03-12
 
-### Added
-- Separate `edshopb2b.edsystem.cz` target for direct B2B lookup.
-- Optional product-detail support for `edshopb2b.edsystem.cz`.
+### Pridano
+- Samostatny cil `edshopb2b.edsystem.cz` pro primy B2B lookup.
+- Volitelna podpora detailu produktu pro `edshopb2b.edsystem.cz`.
 
-### Changed
-- README and store description updated to reflect the current supported targets and default action mapping.
+### Zmeneno
+- Aktualizovany `README.md` a store description podle aktualne podporovanych cilu a vychoziho mapovani akci.
