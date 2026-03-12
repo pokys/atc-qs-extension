@@ -6,7 +6,7 @@ const defaults = {
   actions: {
     click: { enabled: true, shop: "alza" },
     context: { enabled: true, shop: "tsbohemia" },
-    alt_click: { enabled: true, shop: "edshop" },
+    alt_click: { enabled: true, shop: "edshopb2b" },
     alt_context: { enabled: true, shop: "heureka" }
   },
   sites: {
@@ -19,6 +19,7 @@ const shopOptions = [
   { value: "alza", label: "alza.cz" },
   { value: "tsbohemia", label: "tsbohemia.cz" },
   { value: "edshop", label: "edshop.edsystem.cz" },
+  { value: "edshopb2b", label: "edshopb2b.edsystem.cz" },
   { value: "heureka", label: "heureka.cz" },
   { value: "datart", label: "datart.cz" },
   { value: "iwant", label: "iwant.cz" },

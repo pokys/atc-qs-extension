@@ -10,7 +10,7 @@ Rozšíření pro rychlé vyhledání product/part kódu na vybraných českých
 - Nastavitelné mapování akcí (klik, pravý klik, Alt + klik, Alt + pravý klik).
 - Prostřední klik: otevře všechny aktivní e-shopy (výchozí stav: zapnuto).
 - Volitelná funkce `Otevírat odkazy na pozadí`.
-- Volitelná podpora detailu produktu na `comfor.cz` a `edshop.edsystem.cz`.
+- Volitelná podpora detailu produktu na `comfor.cz`, `edshop.edsystem.cz` a `edshopb2b.edsystem.cz`.
 
 Store listing texty jsou v:
 - `store-description.md`

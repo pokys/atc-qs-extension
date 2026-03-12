@@ -9,11 +9,12 @@ Primárně funguje na `atcomp.cz`:
 Volitelně lze v nastavení zapnout i zobrazení ikony na detailu produktu na:
 - `comfor.cz`
 - `edshop.edsystem.cz`
+- `edshopb2b.edsystem.cz`
 
 ## Výchozí mapování akcí
 - Klik: `alza.cz`
 - Pravý klik: `tsbohemia.cz`
-- Alt + klik: `edshop.edsystem.cz`
+- Alt + klik: `edshopb2b.edsystem.cz`
 - Alt + pravý klik: `heureka.cz`
 
 ## Nové chování
@@ -26,7 +27,7 @@ Volitelně lze v nastavení zapnout i zobrazení ikony na detailu produktu na:
 - Lze zapnout/vypnout rozšířenou podporu pro Comfor a EDshop detail.
 
 ## Podporované cílové e-shopy
-`alza.cz`, `tsbohemia.cz`, `edshop.edsystem.cz`, `heureka.cz`, `datart.cz`, `iwant.cz`, `smarty.cz`, `allegro.cz (CZC)`, `comfor.cz`, `mironet.cz`.
+`alza.cz`, `tsbohemia.cz`, `edshop.edsystem.cz`, `edshopb2b.edsystem.cz`, `heureka.cz`, `datart.cz`, `iwant.cz`, `smarty.cz`, `allegro.cz (CZC)`, `comfor.cz`, `mironet.cz`.
 
 ## Soukromí
 - Doplněk nesbírá osobní data.

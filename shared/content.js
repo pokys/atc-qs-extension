@@ -6,7 +6,7 @@
     actions: {
       click: { enabled: true, shop: "alza" },
       context: { enabled: true, shop: "tsbohemia" },
-      alt_click: { enabled: true, shop: "edshop" },
+      alt_click: { enabled: true, shop: "edshopb2b" },
       alt_context: { enabled: true, shop: "heureka" }
     },
     sites: {
@@ -33,6 +33,10 @@
     edshop: {
       label: "edshop.edsystem.cz",
       url: part => "https://edshop.edsystem.cz/pages/productlist.aspx?fulltext=" + encodeURIComponent(part)
+    },
+    edshopb2b: {
+      label: "edshopb2b.edsystem.cz",
+      url: part => "https://edshopb2b.edsystem.cz/pages/productlist.aspx?fulltext=" + encodeURIComponent(part)
     },
     heureka: {
       label: "heureka.cz",
@@ -213,7 +217,7 @@
     }
   }
 
-  if (host.endsWith("edshop.edsystem.cz") && sites.edshop) {
+  if ((host.endsWith("edshop.edsystem.cz") || host.endsWith("edshopb2b.edsystem.cz")) && sites.edshop) {
     const labels = [...document.querySelectorAll(".list-items_item_label")];
     const label = labels.find(el => {
       const text = el.textContent.trim().toLowerCase();
